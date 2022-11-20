@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace AvalonDock.Controls
 {
@@ -18,14 +19,8 @@ namespace AvalonDock.Controls
 	[TemplatePart(Name = "PART_ItemsHolder", Type = typeof(Panel))]
 	public class TabControlEx : TabControl
 	{
-		#region fields
-
-		private Panel ItemsHolderPanel = null;
-		private readonly bool _IsVirtualizing;
-
-		#endregion fields
-
-		#region constructors
+		private          Panel ItemsHolderPanel = null;
+		private readonly bool  _IsVirtualizing;
 
 		/// <summary>
 		/// Class constructor from virtualization parameter.
@@ -49,17 +44,11 @@ namespace AvalonDock.Controls
 			ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
 		}
 
-		#endregion constructors
-
-		#region properties
-
 		/// <summary>Gets whether the control and its inheriting classes are virtualizing their items or not.</summary>
-		[Bindable(false), Description("Gets whether the control and its inheriting classes are virtualizing their items or not."), Category("Other")]
+		[Bindable(false),
+		 Description("Gets whether the control and its inheriting classes are virtualizing their items or not."),
+		 Category("Other")]
 		public bool IsVirtualiting => _IsVirtualizing;
-
-		#endregion properties
-
-		#region methods
 
 		/// <summary>
 		/// Get the ItemsHolder and generate any children
@@ -193,13 +182,13 @@ namespace AvalonDock.Controls
 
 		private Grid CreateGrid()
 		{
-			var grid = new Grid();
+			var     grid    = new Grid();
 			Binding binding = new Binding(PaddingProperty.Name);
-			binding.Source = this;  // view model?
+			binding.Source = this; // view model?
 			grid.SetBinding(Grid.MarginProperty, binding);
 
-			binding = new Binding(SnapsToDevicePixelsProperty.Name);
-			binding.Source = this;  // view model?
+			binding        = new Binding(SnapsToDevicePixelsProperty.Name);
+			binding.Source = this; // view model?
 			grid.SetBinding(Grid.SnapsToDevicePixelsProperty, binding);
 
 			return grid;
@@ -262,6 +251,9 @@ namespace AvalonDock.Controls
 			return null;
 		}
 
-		#endregion methods
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			// bypass all TabControl key processing
+		}
 	}
 }
